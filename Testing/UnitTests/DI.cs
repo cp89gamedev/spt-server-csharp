@@ -40,7 +40,15 @@ public class DI
         diHandler.AddInjectableTypesFromTypeAssembly(typeof(App));
         diHandler.AddInjectableTypesFromTypeList(
             [
-                typeof(MockLogger<>), // TODO: this needs to be enabled but the randomizer needs to NOT be random, typeof(MockRandomUtil)
+                typeof(MockLogger<>),
+                typeof(MockImporterUtil), // Override ImporterUtil
+                typeof(MockFileUtil), // Override FileUtil
+                typeof(MockJsonUtil), // Override JsonUtil
+                typeof(MockRandomUtil), // Override RandomUtil with deterministic behavior
+                typeof(MockTimeUtil), // Override TimeUtil
+                typeof(MockConfigServer), // Override ConfigServer
+                typeof(MockDatabaseService), // Override DatabaseService
+                typeof(MockRewardHelper), // Override RewardHelper
             ]
         );
 

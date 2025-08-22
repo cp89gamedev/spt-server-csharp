@@ -1,9 +1,10 @@
 using System.Reflection;
 using System.Text.Json;
 using SPTarkov.DI.Annotations;
+using SPTarkov.Server.Core.Models.Utils;
 using SPTarkov.Server.Core.Utils;
 
-namespace UnitTests.Mocks;
+namespace UnitTests.Mock;
 
 /// <summary>
 /// Mock of ImporterUtil for unit tests, with no external dependencies.
@@ -11,10 +12,9 @@ namespace UnitTests.Mocks;
 /// Uses MockFileUtil for all file operations.
 /// </summary>
 [Injectable(TypeOverride = typeof(ImporterUtil))]
-public class MockImporterUtil
+public class MockImporterUtil(ISptLogger<ImporterUtil> logger, FileUtil fileUtil, JsonUtil jsonUtil)
+    : ImporterUtil(logger, fileUtil, jsonUtil)
 {
-    private readonly MockFileUtil _fileUtil = new();
-
     private static readonly JsonSerializerOptions Options = new()
     {
         ReadCommentHandling = JsonCommentHandling.Skip,
@@ -44,39 +44,39 @@ public class MockImporterUtil
         Func<string, object, Task>? onObjectDeserialized
     )
     {
-        if (!_fileUtil.DirectoryExists(path))
+        if (!fileUtil.DirectoryExists(path))
         {
             return;
         }
 
         // Process files
-        foreach (var file in _fileUtil.GetFiles(path).Where(f => _fileUtil.GetFileExtension(f).Equals("json", StringComparison.OrdinalIgnoreCase)))
+        foreach (
+            var file in fileUtil.GetFiles(path).Where(f => fileUtil.GetFileExtension(f).Equals("json", StringComparison.OrdinalIgnoreCase))
+        )
         {
-            if (onReadCallback != null) await onReadCallback(file);
+            if (onReadCallback != null)
+                await onReadCallback(file);
             await ProcessFileAsync(file, targetType, target, onObjectDeserialized);
         }
 
         // Process directories
-        foreach (var directory in _fileUtil.GetDirectories(path))
+        foreach (var directory in fileUtil.GetDirectories(path))
         {
             await ProcessDirectoryAsync(directory, targetType, target, onReadCallback, onObjectDeserialized);
         }
     }
 
-    private async Task ProcessFileAsync(
-        string file,
-        Type targetType,
-        object target,
-        Func<string, object, Task>? onObjectDeserialized
-    )
+    private async Task ProcessFileAsync(string file, Type targetType, object target, Func<string, object, Task>? onObjectDeserialized)
     {
-        var fileName = _fileUtil.StripExtension(file);
+        var fileName = fileUtil.StripExtension(file);
         var setMethod = GetSetMethod(fileName, targetType, out var propertyType, out var isDictionary);
 
         var deserialized = await DeserializeFileAsync(file, propertyType);
-        if (deserialized is null) return;
+        if (deserialized is null)
+            return;
 
-        if (onObjectDeserialized != null) await onObjectDeserialized(file, deserialized);
+        if (onObjectDeserialized != null)
+            await onObjectDeserialized(file, deserialized);
 
         if (isDictionary)
         {
@@ -116,8 +116,9 @@ public class MockImporterUtil
 
     private async Task<object?> DeserializeFileAsync(string file, Type propertyType)
     {
-        var json = await _fileUtil.ReadFileAsync(file);
-        if (string.IsNullOrEmpty(json)) return null;
+        var json = await fileUtil.ReadFileAsync(file);
+        if (string.IsNullOrEmpty(json))
+            return null;
         return JsonSerializer.Deserialize(json, propertyType, Options);
     }
 
@@ -163,4 +164,3 @@ public class MockImporterUtil
         return raw.Replace("_", "").Replace("-", "").Trim().ToLowerInvariant();
     }
 }
-

@@ -8,9 +8,10 @@ using SPTarkov.Server.Core.Models.Eft.Common.Tables;
 using SPTarkov.Server.Core.Models.Spt.Bots;
 using SPTarkov.Server.Core.Models.Spt.Server;
 using SPTarkov.Server.Core.Models.Spt.Templates;
+using SPTarkov.Server.Core.Models.Utils;
+using SPTarkov.Server.Core.Servers;
 using SPTarkov.Server.Core.Services;
 using UnitTests.Mock;
-using UnitTests.Mocks;
 using Hideout = SPTarkov.Server.Core.Models.Spt.Hideout.Hideout;
 using Locations = SPTarkov.Server.Core.Models.Spt.Server.Locations;
 
@@ -21,31 +22,29 @@ namespace UnitTests.Mock;
 /// Backed by an in-memory DatabaseTables instance that tests can configure.
 /// </summary>
 [Injectable(TypeOverride = typeof(DatabaseService))]
-public class MockDatabaseService
+public class MockDatabaseService : DatabaseService
 {
     private DatabaseTables? _tables;
     private bool _isDataValid = true;
-    private readonly MockImporterUtil _importerUtil;
-
-    /// <summary>
-    /// Optionally initialize with prebuilt tables.
-    /// </summary>
-    public MockDatabaseService(DatabaseTables? tables = null)
-    {
-        _tables = tables;
-    }
+    private readonly MockFileUtil _fileUtil = new();
+    private readonly MockJsonUtil _jsonUtil = MockJsonUtil.Default;
 
     /// <summary>
     /// Initialize mock by auto-loading DatabaseTables from JSON fixture files.
     /// Looks under Testing/UnitTests/TestAssets/database.
     /// </summary>
-    public MockDatabaseService(MockFileUtil fileUtil, MockJsonUtil jsonUtil)
+    public MockDatabaseService(
+        ISptLogger<DatabaseService> logger,
+        DatabaseServer databaseServer,
+        ServerLocalisationService serverLocalisationService
+    )
+        : base(logger, databaseServer, serverLocalisationService)
     {
         const string basePath = "Testing/UnitTests/TestAssets/database/";
         try
         {
-            _tables = fileUtil
-                .LoadRecursiveAsync<DatabaseTables>(basePath, (file, type) => Task.FromResult(jsonUtil.DeserializeFromFile(file, type))!)
+            _tables = _fileUtil
+                .LoadRecursiveAsync<DatabaseTables>(basePath, (file, type) => Task.FromResult(_jsonUtil.DeserializeFromFile(file, type))!)
                 .GetAwaiter()
                 .GetResult();
             _isDataValid = true;

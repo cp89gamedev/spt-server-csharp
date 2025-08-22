@@ -3,18 +3,18 @@ using SPTarkov.Server.Core.Models.Spt.Config;
 using SPTarkov.Server.Core.Models.Utils;
 using SPTarkov.Server.Core.Servers;
 using SPTarkov.Server.Core.Utils;
-using UnitTests.Mocks;
 
 namespace UnitTests.Mock;
 
 [Injectable(TypeOverride = typeof(ConfigServer))]
-public class MockConfigServer
+public class MockConfigServer : ConfigServer
 {
     private readonly Dictionary<string, object> _mockConfigs = new();
-    private readonly MockFileUtil _file = new();
-    private readonly MockJsonUtil _json = new();
+    private readonly FileUtil _file;
+    private readonly JsonUtil _json;
 
-    public MockConfigServer()
+    public MockConfigServer(ISptLogger<ConfigServer> logger, JsonUtil jsonUtil, FileUtil fileUtil)
+        : base(logger, jsonUtil, fileUtil)
     {
         // Load a minimal set of configs from TestAssets based on real files under Libraries/SPTarkov.Server.Assets/SPT_Data/configs.
         // We only need a subset of top-level fields per file for testing.
@@ -25,6 +25,8 @@ public class MockConfigServer
         LoadMockConfigFromTestAsset<HideoutConfig>("hideout.json", "spt-hideout");
         LoadMockConfigFromTestAsset<PmcConfig>("pmc.json", "spt-pmc");
         LoadMockConfigFromTestAsset<LostOnDeathConfig>("lostondeath.json", "spt-lostondeath");
+        _file = fileUtil;
+        _json = jsonUtil;
     }
 
     private void LoadMockConfigFromTestAsset<T>(string fileName, string keyAlias)

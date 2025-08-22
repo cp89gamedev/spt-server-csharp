@@ -7,11 +7,26 @@ using SPTarkov.Server.Core.Models.Eft.Hideout;
 using SPTarkov.Server.Core.Models.Eft.ItemEvent;
 using SPTarkov.Server.Core.Models.Eft.Profile;
 using SPTarkov.Server.Core.Models.Enums;
+using SPTarkov.Server.Core.Models.Utils;
+using SPTarkov.Server.Core.Services;
+using SPTarkov.Server.Core.Utils;
+using SPTarkov.Server.Core.Utils.Cloners;
 
 namespace UnitTests.Mock;
 
 [Injectable(TypeOverride = typeof(RewardHelper))]
-public class MockRewardHelper
+public class MockRewardHelper(
+    ISptLogger<RewardHelper> logger,
+    TimeUtil timeUtil,
+    ItemHelper itemHelper,
+    DatabaseService databaseService,
+    ProfileHelper profileHelper,
+    ServerLocalisationService serverLocalisationService,
+    TraderHelper traderHelper,
+    PresetHelper presetHelper,
+    NotificationSendHelper notificationSendHelper,
+    ICloner cloner
+) : RewardHelper(logger, timeUtil, itemHelper, databaseService, profileHelper, serverLocalisationService, traderHelper, presetHelper, notificationSendHelper, cloner)
 {
     /// <summary>
     /// Mock: Return a predictable list of items based on the input rewards.

@@ -7,9 +7,7 @@ namespace UnitTests.Tests.Services;
 [TestFixture]
 public class LocationLifecycleServiceTests
 {
-    private MockLogger<LocationLifecycleService> _logger = new();
     private LocationLifecycleService _locationLifecycle;
-    private MockConfigServer _configServer = new();
 
     [OneTimeSetUp]
     public void Initialize()

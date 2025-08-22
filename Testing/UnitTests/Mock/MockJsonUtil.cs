@@ -3,30 +3,37 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using SPTarkov.DI.Annotations;
 using SPTarkov.Server.Core.Utils;
+using SPTarkov.Server.Core.Utils.Json;
 
 namespace UnitTests.Mock;
 
 [Injectable(TypeOverride = typeof(JsonUtil))]
-public class MockJsonUtil
+public class MockJsonUtil(IEnumerable<IJsonConverterRegistrator> registrators) : JsonUtil(registrators)
 {
-    public static JsonSerializerOptions? JsonSerializerOptionsIndented { get; private set; } = new JsonSerializerOptions
-    {
-        ReadCommentHandling = JsonCommentHandling.Skip,
-        WriteIndented = true,
-        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-    };
+    public static JsonSerializerOptions? JsonSerializerOptionsIndented { get; private set; }
+    public static JsonSerializerOptions? JsonSerializerOptionsNoIndent { get; private set; }
+    
+    // Static instance with default (empty) registrators for use in tests that don't need DI
+    public static MockJsonUtil Default { get; } = new MockJsonUtil(Enumerable.Empty<IJsonConverterRegistrator>());
 
-    public static JsonSerializerOptions? JsonSerializerOptionsNoIndent { get; private set; } = new JsonSerializerOptions
+    static MockJsonUtil()
     {
-        ReadCommentHandling = JsonCommentHandling.Skip,
-        WriteIndented = false,
-        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-    };
+        JsonSerializerOptionsIndented = new JsonSerializerOptions
+        {
+            ReadCommentHandling = JsonCommentHandling.Skip,
+            WriteIndented = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        };
 
-    // Mirror ctor but without external registrators; keep defaults minimal
-    public MockJsonUtil() { }
+        JsonSerializerOptionsNoIndent = new JsonSerializerOptions
+        {
+            ReadCommentHandling = JsonCommentHandling.Skip,
+            WriteIndented = false,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        };
+    }
 
     public T? Deserialize<T>(string? json)
     {
@@ -40,28 +47,32 @@ public class MockJsonUtil
 
     public T? DeserializeFromFile<T>(string file)
     {
-        if (!File.Exists(file)) return default;
+        if (!File.Exists(file))
+            return default;
         using FileStream fs = new(file, FileMode.Open, FileAccess.Read, FileShare.Read);
         return JsonSerializer.Deserialize<T>(fs, JsonSerializerOptionsNoIndent);
     }
 
     public async Task<T?> DeserializeFromFileAsync<T>(string file)
     {
-        if (!File.Exists(file)) return default;
+        if (!File.Exists(file))
+            return default;
         await using FileStream fs = new(file, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true);
         return await JsonSerializer.DeserializeAsync<T>(fs, JsonSerializerOptionsNoIndent);
     }
 
     public object? DeserializeFromFile(string file, Type type)
     {
-        if (!File.Exists(file)) return default;
+        if (!File.Exists(file))
+            return default;
         using FileStream fs = new(file, FileMode.Open, FileAccess.Read, FileShare.Read);
         return JsonSerializer.Deserialize(fs, type, JsonSerializerOptionsNoIndent);
     }
 
     public async Task<object?> DeserializeFromFileAsync(string file, Type type)
     {
-        if (!File.Exists(file)) return default;
+        if (!File.Exists(file))
+            return default;
         await using FileStream fs = new(file, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true);
         return await JsonSerializer.DeserializeAsync(fs, type, JsonSerializerOptionsNoIndent);
     }
@@ -83,13 +94,15 @@ public class MockJsonUtil
 
     public string? Serialize<T>(T? obj, bool indented = false)
     {
-        if (obj == null) return null;
+        if (obj == null)
+            return null;
         return JsonSerializer.Serialize(obj, indented ? JsonSerializerOptionsIndented : JsonSerializerOptionsNoIndent);
     }
 
     public string? Serialize(object? obj, Type type, bool indented = false)
     {
-        if (obj == null) return null;
+        if (obj == null)
+            return null;
         return JsonSerializer.Serialize(obj, type, indented ? JsonSerializerOptionsIndented : JsonSerializerOptionsNoIndent);
     }
 }

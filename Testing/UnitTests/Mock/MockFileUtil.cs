@@ -3,7 +3,7 @@ using System.Text.Json;
 using SPTarkov.DI.Annotations;
 using SPTarkov.Server.Core.Utils;
 
-namespace UnitTests.Mocks;
+namespace UnitTests.Mock;
 
 /// <summary>
 /// Mock FileUtil for unit tests. No external dependencies, does not inherit from any class.
@@ -11,7 +11,7 @@ namespace UnitTests.Mocks;
 /// - Also provides recursive JSON loading helpers used by ImporterUtil mocks
 /// </summary>
 [Injectable(TypeOverride = typeof(FileUtil))]
-public class MockFileUtil
+public class MockFileUtil : FileUtil
 {
     private const string ModBasePath = "user/mods/";
 
@@ -213,12 +213,19 @@ public class MockFileUtil
         }
     }
 
-    private async Task ProcessFileAsync(string file, Type targetType, object target, Func<string, object, Task>? onObjectDeserialized, Func<string, Type, Task<object?>>? customDeserializer)
+    private async Task ProcessFileAsync(
+        string file,
+        Type targetType,
+        object target,
+        Func<string, object, Task>? onObjectDeserialized,
+        Func<string, Type, Task<object?>>? customDeserializer
+    )
     {
         var fileName = Path.GetFileNameWithoutExtension(file);
         var setMethod = GetSetMethod(fileName, targetType, out var propertyType, out var isDictionary);
 
-        var deserialized = customDeserializer != null ? await customDeserializer(file, propertyType) : await DeserializeFileAsync(file, propertyType);
+        var deserialized =
+            customDeserializer != null ? await customDeserializer(file, propertyType) : await DeserializeFileAsync(file, propertyType);
         if (deserialized is null)
             return;
 
@@ -249,7 +256,14 @@ public class MockFileUtil
         var setMethod = GetSetMethod(directoryName, targetType, out var propertyType, out var isDictionary);
 
         var nested = Activator.CreateInstance(propertyType)!;
-        await LoadRecursiveAsync(directory + Path.DirectorySeparatorChar, propertyType, nested, onReadCallback, onObjectDeserialized, customDeserializer);
+        await LoadRecursiveAsync(
+            directory + Path.DirectorySeparatorChar,
+            propertyType,
+            nested,
+            onReadCallback,
+            onObjectDeserialized,
+            customDeserializer
+        );
 
         if (isDictionary)
         {
