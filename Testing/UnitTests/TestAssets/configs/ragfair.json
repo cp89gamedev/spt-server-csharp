@@ -1,0 +1,20 @@
+{
+  "kind": "spt-ragfair",
+  "runIntervalSeconds": 600,
+  "runIntervalValues": { "inRaid": 120, "outOfRaid": 600 },
+  "traders": { "54cb50c76803fa8b248b4571": true },
+  "sell": { "fees": true, "chance": { "base": 50, "sellMultiplier": 1.0, "maxSellChancePercent": 95, "minSellChancePercent": 10 }, "time": { "min": 30, "max": 600 }, "expireSeconds": 30 },
+  "dynamic": {
+    "purchasesAreFoundInRaid": false,
+    "useTraderPriceForOffersIfHigher": true,
+    "expiredOfferThreshold": 100,
+    "endTimeSeconds": { "min": 360, "max": 3600 },
+    "rating": { "min": 0.5, "max": 1.0 },
+    "stackablePercent": { "min": 0.25, "max": 1.0 },
+    "nonStackableCount": { "min": 1, "max": 10 },
+    "armor": { "removeRemovablePlateChance": 40, "plateSlotIdToRemovePool": ["front_plate", "back_plate"] },
+    "blacklist": { "custom": [], "enableBsgList": true, "enableQuestList": true, "damagedAmmoPacks": true, "enableCustomItemCategoryList": false, "customItemCategoryList": [], "traderItems": false }
+  },
+  "tieredFlea": { "enabled": false, "unlocksTpl": {}, "unlocksType": {} }
+}
+

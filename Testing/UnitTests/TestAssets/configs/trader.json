@@ -1,0 +1,24 @@
+{
+  "kind": "spt-trader",
+  "updateTimeDefault": 3600,
+  "tradersResetFromServerStart": true,
+  "purchasesAreFoundInRaid": false,
+  "traderPriceMultiplier": 1,
+  "updateTime": [
+    { "_name": "prapor", "traderId": "54cb50c76803fa8b248b4571", "seconds": { "min": 7000, "max": 13500 } }
+  ],
+  "fence": {
+    "discountOptions": {
+      "assortSize": 45,
+      "itemPriceMult": 0.8,
+      "presetPriceMult": 1.15,
+      "weaponPresetMinMax": { "min": 5, "max": 12 },
+      "equipmentPresetMinMax": { "min": 5, "max": 12 }
+    },
+    "partialRefreshTimeSeconds": 240,
+    "partialRefreshChangePercent": 15,
+    "assortSize": 120
+  },
+  "moddedTraders": { "clothingService": [] }
+}
+

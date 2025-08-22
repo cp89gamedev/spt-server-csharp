@@ -1,0 +1,17 @@
+{
+  "kind": "spt-inraid",
+  "raidMenuSettings": {
+    "aiAmount": "AsOnline",
+    "aiDifficulty": "AsOnline",
+    "bossEnabled": true
+  },
+  "carExtracts": ["Dorms V-Ex"],
+  "coopExtracts": ["Factory Gate"],
+  "carExtractBaseStandingGain": 0.2,
+  "coopExtractBaseStandingGain": 0.25,
+  "scavExtractStandingGain": 0.01,
+  "keepFiRSecureContainerOnDeath": false,
+  "alwaysKeepFoundInRaidOnRaidEnd": false,
+  "playerScavHostileChancePercent": 15
+}
+

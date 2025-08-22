@@ -1,0 +1,6 @@
+{
+  "base": {"Id": "Factory4Day", "Name": "factory4_day", "OpenZones": "", "BotMax": 0, "BotStart": 0, "Enabled": true, "Exits": [], "MinMaxBots": [], "Waves": []},
+  "allExtracts": [],
+  "staticAmmo": {}
+}
+

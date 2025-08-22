@@ -1,0 +1,28 @@
+{
+  "kind": "spt-hideout",
+  "runIntervalSeconds": 10,
+  "runIntervalValues": { "inRaid": 60, "outOfRaid": 10 },
+  "hoursForSkillCrafting": 28800,
+  "expCraftAmount": 10,
+  "overrideCraftTimeSeconds": -1,
+  "overrideBuildTimeSeconds": -1,
+  "updateProfileHideoutWhenActiveWithinMinutes": 90,
+  "cultistCircle": {
+    "maxRewardItemCount": 5,
+    "maxAttemptsToPickRewardsWithinBudget": 5,
+    "rewardPriceMultiplierMinMax": { "min": 0.7, "max": 1.4 },
+    "bonusChanceMultiplier": 0.25,
+    "highValueThresholdRub": 70000,
+    "hideoutTaskRewardTimeSeconds": 21600,
+    "hideoutCraftSacrificeThresholdRub": 400000,
+    "craftTimeThresholds": [],
+    "craftTimeOverride": -1,
+    "directRewards": [],
+    "directRewardStackSize": {},
+    "rewardItemBlacklist": [],
+    "additionalRewardItemPool": [],
+    "currencyRewards": {}
+  },
+  "hideoutCraftsToAdd": []
+}
+

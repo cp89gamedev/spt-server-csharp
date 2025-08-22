@@ -1,0 +1,24 @@
+{
+  "kind": "spt-lostondeath",
+  "equipment": {
+    "ArmBand": true,
+    "Headwear": true,
+    "Earpiece": true,
+    "FaceCover": true,
+    "ArmorVest": true,
+    "Eyewear": true,
+    "TacticalVest": true,
+    "PocketItems": true,
+    "Backpack": true,
+    "Holster": true,
+    "FirstPrimaryWeapon": true,
+    "SecondPrimaryWeapon": true,
+    "Scabbard": true,
+    "Compass": true,
+    "SecuredContainer": false
+  },
+  "specialSlotItems": false,
+  "questItems": false,
+  "wipeOnRaidStart": false
+}
+

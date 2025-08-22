@@ -1,0 +1,16 @@
+{
+  "kind": "spt-location",
+  "looseLootMultiplier": {
+    "bigmap": 2.5,
+    "interchange": 2.8
+  },
+  "staticLootMultiplier": {
+    "bigmap": 1,
+    "interchange": 1
+  },
+  "openZones": {},
+  "fitLootIntoContainerAttempts": 3,
+  "addOpenZonesToAllMaps": true,
+  "enableBotTypeLimits": true
+}
+

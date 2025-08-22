@@ -1,0 +1,31 @@
+{
+  "TraderServerSettings": {
+    "TraderServices": {
+      "ExUsecLoyalty": { "TraderId": "", "TraderServiceType": 0, "Requirements": { "CompletedQuests": [], "Standings": {} }, "ServiceItemCost": {}, "UniqueItems": [] },
+      "ZryachiyAid": { "TraderId": "", "TraderServiceType": 0, "Requirements": { "CompletedQuests": [], "Standings": {} }, "ServiceItemCost": {}, "UniqueItems": [] },
+      "CultistsAid": { "TraderId": "", "TraderServiceType": 0, "Requirements": { "CompletedQuests": [], "Standings": {} }, "ServiceItemCost": {}, "UniqueItems": [] },
+      "PlayerTaxi": { "TraderId": "", "TraderServiceType": 0, "Requirements": { "CompletedQuests": [], "Standings": {} }, "ServiceItemCost": {}, "UniqueItems": [] },
+      "BtrItemsDelivery": { "TraderId": "", "TraderServiceType": 0, "Requirements": { "CompletedQuests": [], "Standings": {} }, "ServiceItemCost": {}, "UniqueItems": [] },
+      "BtrBotCover": { "TraderId": "", "TraderServiceType": 0, "Requirements": { "CompletedQuests": [], "Standings": {} }, "ServiceItemCost": {}, "UniqueItems": [] },
+      "TransitItemsDelivery": { "TraderId": "", "TraderServiceType": 0, "Requirements": { "CompletedQuests": [], "Standings": {} }, "ServiceItemCost": {}, "UniqueItems": [] }
+    }
+  },
+  "BTRServerSettings": {
+    "ChanceSpawn": 0,
+    "SpawnPeriod": { "x": 0, "y": 0, "z": 0 },
+    "MoveSpeed": 0,
+    "ReadyToDepartureTime": 0,
+    "CheckTurnDistanceTime": 0,
+    "TurnCheckSensitivity": 0,
+    "DecreaseSpeedOnTurnLimit": 0,
+    "EndSplineDecelerationDistance": 0,
+    "AccelerationSpeed": 0,
+    "DecelerationSpeed": 0,
+    "PauseDurationRange": { "x": 0, "y": 0, "z": 0 },
+    "BodySwingReturnSpeed": 0,
+    "BodySwingDamping": 0,
+    "BodySwingIntensity": 0,
+    "ServerMapBTRSettings": {}
+  }
+}
+

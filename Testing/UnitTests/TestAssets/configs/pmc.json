@@ -1,0 +1,34 @@
+{
+  "kind": "spt-pmc",
+  "gameVersionWeight": { "edge_of_darkness": 1 },
+  "accountTypeWeight": { "Default": 1 },
+  "vestLoot": { "whitelist": [], "blacklist": [] },
+  "pocketLoot": { "whitelist": [], "blacklist": [] },
+  "backpackLoot": { "whitelist": [], "blacklist": [] },
+  "globalLootBlacklist": [],
+  "useDifficultyOverride": false,
+  "difficulty": "AsOnline/Hard",
+  "looseWeaponInBackpackChancePercent": 5,
+  "weaponHasEnhancementChancePercent": 10,
+  "looseWeaponInBackpackLootMinMax": { "min": 0, "max": 1 },
+  "isUsec": 50,
+  "forceArmband": { "enabled": false, "usec": "", "bear": "" },
+  "usecType": "pmcBot",
+  "bearType": "pmcBot",
+  "pmcType": {},
+  "lootSettings": {
+    "pocket": { "totalRubByLevel": [], "locationMultiplier": {} },
+    "vest": { "totalRubByLevel": [], "locationMultiplier": {} },
+    "backpack": { "totalRubByLevel": [], "locationMultiplier": {} }
+  },
+  "botRelativeLevelDelta": { "min": 0, "max": 5 },
+  "forceHealingItemsIntoSecure": true,
+  "hostilitySettings": {},
+  "allPMCsHavePlayerNameWithRandomPrefixChance": 0,
+  "locationSpecificPmcLevelOverride": {},
+  "addSecureContainerLootFromBotConfig": false,
+  "lootItemLimitsRub": [],
+  "dogtags": {},
+  "customPmcWaves": {}
+}
+
