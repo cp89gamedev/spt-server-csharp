@@ -34,7 +34,7 @@ public class ImporterUtil(ISptLogger<ImporterUtil> logger, FileUtil fileUtil, Js
     /// <param name="onReadCallback"></param>
     /// <param name="onObjectDeserialized"></param>
     /// <returns>Task</returns>
-    protected async Task<object> LoadRecursiveAsync(
+    protected virtual async Task<object> LoadRecursiveAsync(
         string filePath,
         Type loadedType,
         Func<string, Task>? onReadCallback = null,

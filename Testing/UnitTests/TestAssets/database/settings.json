@@ -1,60 +1,172 @@
 {
   "config": {
-    "AFKTimeoutSeconds": 0,
+    "AFKTimeoutSeconds": 30,
     "AdditionalRandomDelaySeconds": 0,
     "AudioSettings": {
       "AudioGroupPresets": [],
       "EnvironmentSettings": {
-        "AutumnLateSettings": { "RainSettings": [], "StepsVolumeMultiplier": 0, "WindMultipliers": [] },
-        "AutumnSettings": { "RainSettings": [], "StepsVolumeMultiplier": 0, "WindMultipliers": [] },
-        "SpringEarlySettings": { "RainSettings": [], "StepsVolumeMultiplier": 0, "WindMultipliers": [] },
-        "SpringSettings": { "RainSettings": [], "StepsVolumeMultiplier": 0, "WindMultipliers": [] },
-        "StormSettings": { "RainSettings": [], "StepsVolumeMultiplier": 0, "WindMultipliers": [] },
-        "SummerSettings": { "RainSettings": [], "StepsVolumeMultiplier": 0, "WindMultipliers": [] },
-        "WinterSettings": { "RainSettings": [], "StepsVolumeMultiplier": 0, "WindMultipliers": [] },
+        "AutumnLateSettings": {
+          "RainSettings": [
+            {
+              "IndoorVolumeMult": 1,
+              "OutdoorVolumeMult": 1.0,
+              "RainIntensity": "Light"
+            }
+          ],
+          "StepsVolumeMultiplier": 1.0,
+          "WindMultipliers": []
+        },
+        "AutumnSettings": {
+          "RainSettings": [
+            {
+              "IndoorVolumeMult": 1,
+              "OutdoorVolumeMult": 1.0,
+              "RainIntensity": "Light"
+            }
+          ],
+          "StepsVolumeMultiplier": 1.0,
+          "WindMultipliers": []
+        },
+        "SpringEarlySettings": {
+          "RainSettings": [],
+          "StepsVolumeMultiplier": 1.0,
+          "WindMultipliers": []
+        },
+        "SpringSettings": {
+          "RainSettings": [],
+          "StepsVolumeMultiplier": 1.0,
+          "WindMultipliers": []
+        },
+        "StormSettings": {
+          "RainSettings": [],
+          "StepsVolumeMultiplier": 1.0,
+          "WindMultipliers": []
+        },
+        "SummerSettings": {
+          "RainSettings": [],
+          "StepsVolumeMultiplier": 1.0,
+          "WindMultipliers": []
+        },
+        "WinterSettings": {
+          "RainSettings": [],
+          "StepsVolumeMultiplier": 1.0,
+          "WindMultipliers": []
+        },
         "SurfaceMultipliers": []
       },
-      "HeadphonesSettings": { "FadeDuration": 0, "FadeIn": "", "FadeOut": "" },
-      "MetaXRAudioPluginSettings": { "EnabledPluginErrorChecker": false, "OutputVolumeCheckCooldown": 0, "audioGroupAcousticSettings": [] },
+      "HeadphonesSettings": {
+        "FadeDuration": 0.5,
+        "FadeIn": "Linear",
+        "FadeOut": "Linear"
+      },
+      "MetaXRAudioPluginSettings": {
+        "EnabledPluginErrorChecker": false,
+        "OutputVolumeCheckCooldown": 1.0,
+        "audioGroupAcousticSettings": []
+      },
       "OcclusionSettings": {
         "audioGroupOcclusionSettings": [],
         "locationOcclusionSettings": {
-          "commonSettings": { "diffractionThreshold": 0, "effectChangeThreshold": 0, "floorHeight": 0, "maxDistance": 0, "playerObstructionYOffset": 0, "positionChangeThreshold": [], "smoothingFactor": 0, "transmissionThreshold": 0 },
-          "diffractionSettings": { "edgeSearchRayCount": [], "edgeSearchRayLength": 0, "edgeValidationRayOffset": 0, "maxEdgeDist": 0, "maxPathFactor": 0 },
-          "propagationSettings": { "absoluteHeightWeight": 0, "diffractionExponent": 0, "distanceWeight": 0, "heightExponent": 0, "maxSegmentLength": 0, "minPortalCostPercent": 0, "relaxationIterations": 0, "routesCompressionFactorByQuality": [], "segmentHeightWeightDown": 0, "segmentHeightWeightUp": 0, "typicalRoomHeight": 0 },
-          "reflectionSettings": { "energyLossFactorPerReflection": 0, "initialRaysCount": [], "maxReflections": 0, "minEnergyAtMaxDistance": 0 },
-          "transmissionSettings": { "absorptionPerUnit": 0, "initialRaysCount": [], "listenerHeightSamplingOffset": 0, "minClearPathScore": 0, "minEnergyThreshold": 0, "obstacleMaxThickness": 0, "obstacleMinThickness": 0, "raysWideningRadius": 0, "sourceHeightSamplingOffset": 0, "useRaycast": false }
+          "commonSettings": {
+            "diffractionThreshold": 0.1,
+            "effectChangeThreshold": 0.1,
+            "floorHeight": 2.5,
+            "maxDistance": 100.0,
+            "playerObstructionYOffset": 0.2,
+            "positionChangeThreshold": [0.1, 0.2],
+            "smoothingFactor": 0.5,
+            "transmissionThreshold": 0.1
+          },
+          "diffractionSettings": {
+            "edgeSearchRayCount": [4, 8],
+            "edgeSearchRayLength": 10.0,
+            "edgeValidationRayOffset": 0.1,
+            "maxEdgeDist": 50.0,
+            "maxPathFactor": 2.0
+          },
+          "propagationSettings": {
+            "absoluteHeightWeight": 0.5,
+            "diffractionExponent": 2.0,
+            "distanceWeight": 0.5,
+            "heightExponent": 2.0,
+            "maxSegmentLength": 10.0,
+            "minPortalCostPercent": 0.1,
+            "relaxationIterations": 5.0,
+            "routesCompressionFactorByQuality": [1.0, 0.5],
+            "segmentHeightWeightDown": 0.5,
+            "segmentHeightWeightUp": 0.5,
+            "typicalRoomHeight": 3.0
+          },
+          "reflectionSettings": {
+            "energyLossFactorPerReflection": 0.9,
+            "initialRaysCount": [16, 32],
+            "maxReflections": 3.0,
+            "minEnergyAtMaxDistance": 0.1
+          },
+          "transmissionSettings": {
+            "absorptionPerUnit": 0.1,
+            "initialRaysCount": [8, 16],
+            "listenerHeightSamplingOffset": 0.1,
+            "minClearPathScore": 0.5,
+            "minEnergyThreshold": 0.01,
+            "obstacleMaxThickness": 5.0,
+            "obstacleMinThickness": 0.1,
+            "raysWideningRadius": 1.0,
+            "sourceHeightSamplingOffset": 0.1,
+            "useRaycast": true
+          }
         }
       },
-      "PlayerSettings": { "AudioGroupPreset": "", "OcclusionScale": 0 }
+      "PlayerSettings": {
+        "AudioGroupPreset": "Default",
+        "OcclusionScale": 1.0
+      }
     },
-    "ClientSendRateLimit": 0,
-    "CriticalRetriesCount": 0,
-    "DefaultRetriesCount": 0,
-    "FirstCycleDelaySeconds": 0,
-    "FramerateLimit": { "MaxFramerateGameLimit": 0, "MaxFramerateLobbyLimit": 0, "MinFramerateLimit": 0 },
-    "GroupStatusInterval": 0,
-    "GroupStatusButtonInterval": 0,
-    "KeepAliveInterval": 0,
-    "LobbyKeepAliveInterval": 0,
+    "ClientSendRateLimit": 15,
+    "CriticalRetriesCount": 3,
+    "DefaultRetriesCount": 3,
+    "FirstCycleDelaySeconds": 5,
+    "FramerateLimit": {
+      "MaxFramerateGameLimit": 144,
+      "MaxFramerateLobbyLimit": 60,
+      "MinFramerateLimit": 30
+    },
+    "GroupStatusInterval": 5,
+    "GroupStatusButtonInterval": 1,
+    "KeepAliveInterval": 25,
+    "LobbyKeepAliveInterval": 50,
     "Mark502and504AsNonImportant": false,
-    "MemoryManagementSettings": { "AggressiveGC": false, "GigabytesRequiredToDisableGCDuringRaid": 0, "HeapPreAllocationEnabled": false, "HeapPreAllocationMB": 0, "OverrideRamCleanerSettings": false, "RamCleanerEnabled": false },
+    "MemoryManagementSettings": {
+      "AggressiveGC": false,
+      "GigabytesRequiredToDisableGCDuringRaid": 16,
+      "HeapPreAllocationEnabled": false,
+      "HeapPreAllocationMB": 0,
+      "OverrideRamCleanerSettings": false,
+      "RamCleanerEnabled": false
+    },
     "NVidiaHighlights": false,
-    "NextCycleDelaySeconds": 0,
+    "NextCycleDelaySeconds": 5,
     "NotifierLobbyAidsForce": [],
-    "NotifierLobbyPercentage": 0,
+    "NotifierLobbyPercentage": 100,
     "NotifierUseLobby": false,
-    "PingServerResultSendInterval": 0,
-    "PingServersInterval": 0,
-    "ReleaseProfiler": { "Enabled": false, "MaxRecords": 0, "RecordTriggerValue": 0 },
-    "RequestConfirmationTimeouts": [],
+    "PingServerResultSendInterval": 10,
+    "PingServersInterval": 10,
+    "ReleaseProfiler": {
+      "Enabled": false,
+      "MaxRecords": 100,
+      "RecordTriggerValue": 20
+    },
+    "RequestConfirmationTimeouts": [2.0, 4.0, 8.0],
     "RequestsMadeThroughLobby": [],
-    "SecondCycleDelaySeconds": 0,
+    "SecondCycleDelaySeconds": 5,
     "ShouldEstablishLobbyConnection": false,
     "TurnOffLogging": false,
-    "WeaponOverlapDistanceCulling": 0,
+    "WeaponOverlapDistanceCulling": 50,
     "WebDiagnosticsEnabled": false,
-    "NetworkStateView": { "LossThreshold": 0, "RttThreshold": 0 },
-    "WsReconnectionDelays": []
+    "NetworkStateView": {
+      "LossThreshold": 5,
+      "RttThreshold": 200
+    },
+    "WsReconnectionDelays": [5, 10, 20, 40, 60]
   }
 }

@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using SPTarkov.Common.Extensions;
 using SPTarkov.DI.Annotations;
+using SPTarkov.Server.Core.DI;
 using SPTarkov.Server.Core.Extensions;
 using SPTarkov.Server.Core.Models.Common;
 using SPTarkov.Server.Core.Models.Eft.Common;
@@ -11,6 +12,7 @@ using SPTarkov.Server.Core.Models.Spt.Templates;
 using SPTarkov.Server.Core.Models.Utils;
 using SPTarkov.Server.Core.Servers;
 using SPTarkov.Server.Core.Services;
+using SPTarkov.Server.Core.Utils;
 using UnitTests.Mock;
 using Hideout = SPTarkov.Server.Core.Models.Spt.Hideout.Hideout;
 using Locations = SPTarkov.Server.Core.Models.Spt.Server.Locations;
@@ -21,13 +23,13 @@ namespace UnitTests.Mock;
 /// Mock implementation of DatabaseService for unit tests.
 /// Backed by an in-memory DatabaseTables instance that tests can configure.
 /// </summary>
-[Injectable(TypeOverride = typeof(DatabaseService))]
-public class MockDatabaseService : DatabaseService
+[Injectable(TypeOverride = typeof(DatabaseService), TypePriority = OnLoadOrder.Database + 1)]
+public class MockDatabaseService : DatabaseService, IOnLoad
 {
     private DatabaseTables? _tables;
     private bool _isDataValid = true;
-    private readonly MockFileUtil _fileUtil = new();
-    private readonly MockJsonUtil _jsonUtil = MockJsonUtil.Default;
+    private readonly ImporterUtil _importerUtil;
+    private readonly DatabaseServer _databaseServer;
 
     /// <summary>
     /// Initialize mock by auto-loading DatabaseTables from JSON fixture files.
@@ -36,25 +38,48 @@ public class MockDatabaseService : DatabaseService
     public MockDatabaseService(
         ISptLogger<DatabaseService> logger,
         DatabaseServer databaseServer,
-        ServerLocalisationService serverLocalisationService
+        ServerLocalisationService serverLocalisationService,
+        ImporterUtil importerUtil
     )
         : base(logger, databaseServer, serverLocalisationService)
+    {
+        _importerUtil = importerUtil;
+        _databaseServer = databaseServer;
+        
+        // Load database immediately in constructor to ensure it's ready
+        LoadDatabaseSync();
+    }
+    
+    private void LoadDatabaseSync()
     {
         const string basePath = "Testing/UnitTests/TestAssets/database/";
         try
         {
-            _tables = _fileUtil
-                .LoadRecursiveAsync<DatabaseTables>(basePath, (file, type) => Task.FromResult(_jsonUtil.DeserializeFromFile(file, type))!)
-                .GetAwaiter()
-                .GetResult();
+            _tables = _importerUtil.LoadRecursiveAsync<DatabaseTables>(basePath).GetAwaiter().GetResult();
             _isDataValid = true;
+            
+            // Set the tables in DatabaseServer so other services can access them
+            _databaseServer.SetTables(_tables);
+            Debug.WriteLine($"[MockDatabaseService] Successfully loaded test database from '{basePath}'");
         }
         catch (Exception ex)
         {
             Debug.WriteLine($"[MockDatabaseService] Failed to load test database from '{basePath}': {ex.Message}");
+            Debug.WriteLine($"[MockDatabaseService] Exception type: {ex.GetType().Name}");
+            Debug.WriteLine($"[MockDatabaseService] Stack trace: {ex.StackTrace}");
+            if (ex.InnerException != null)
+            {
+                Debug.WriteLine($"[MockDatabaseService] Inner exception: {ex.InnerException.Message}");
+            }
             _tables = null;
             _isDataValid = false;
         }
+    }
+
+    public async Task OnLoad()
+    {
+        // Database is already loaded in constructor
+        await Task.CompletedTask;
     }
 
     /// <summary>

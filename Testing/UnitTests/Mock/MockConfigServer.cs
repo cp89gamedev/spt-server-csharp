@@ -16,6 +16,8 @@ public class MockConfigServer : ConfigServer
     public MockConfigServer(ISptLogger<ConfigServer> logger, JsonUtil jsonUtil, FileUtil fileUtil)
         : base(logger, jsonUtil, fileUtil)
     {
+        _file = fileUtil;
+        _json = jsonUtil;
         // Load a minimal set of configs from TestAssets based on real files under Libraries/SPTarkov.Server.Assets/SPT_Data/configs.
         // We only need a subset of top-level fields per file for testing.
         LoadMockConfigFromTestAsset<LocationConfig>("location.json", "spt-location");
@@ -25,8 +27,6 @@ public class MockConfigServer : ConfigServer
         LoadMockConfigFromTestAsset<HideoutConfig>("hideout.json", "spt-hideout");
         LoadMockConfigFromTestAsset<PmcConfig>("pmc.json", "spt-pmc");
         LoadMockConfigFromTestAsset<LostOnDeathConfig>("lostondeath.json", "spt-lostondeath");
-        _file = fileUtil;
-        _json = jsonUtil;
     }
 
     private void LoadMockConfigFromTestAsset<T>(string fileName, string keyAlias)

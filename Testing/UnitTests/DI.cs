@@ -1,8 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using SPTarkov.DI;
 using SPTarkov.Server.Core.DI;
 using SPTarkov.Server.Core.Models.Spt.Mod;
+using SPTarkov.Server.Core.Services;
 using SPTarkov.Server.Core.Utils;
 using SPTarkov.Server.Core.Utils.Logger.Handlers;
 using UnitTests.Mock;
@@ -47,6 +48,8 @@ public class DI
                 typeof(MockRandomUtil), // Override RandomUtil with deterministic behavior
                 typeof(MockTimeUtil), // Override TimeUtil
                 typeof(MockConfigServer), // Override ConfigServer
+                typeof(MockDatabaseImporter), // Override DatabaseImporter to prevent loading production database
+                typeof(MockGameCallbacks), // Override GameCallbacks to prevent gameController.Load() during test init
                 typeof(MockDatabaseService), // Override DatabaseService
                 typeof(MockRewardHelper), // Override RewardHelper
             ]
@@ -60,11 +63,22 @@ public class DI
 
         foreach (var onLoad in _serviceProvider.GetServices<IOnLoad>())
         {
-            if (onLoad is FileLogHandler)
+            // Only run OnLoad for our mock services, skip all others
+            var typeName = onLoad.GetType().Name;
+            System.Diagnostics.Debug.WriteLine($"[DI] Found IOnLoad service: {typeName}");
+            if (typeName.StartsWith("Mock"))
             {
-                continue;
+                System.Diagnostics.Debug.WriteLine($"[DI] Running OnLoad for: {typeName}");
+                onLoad.OnLoad().Wait();
             }
-            onLoad.OnLoad().Wait();
+        }
+        
+        // Explicitly ensure MockDatabaseService loads the test database
+        var mockDbService = _serviceProvider.GetService<DatabaseService>();
+        if (mockDbService is MockDatabaseService mockDb)
+        {
+            System.Diagnostics.Debug.WriteLine("[DI] Explicitly calling MockDatabaseService.OnLoad");
+            mockDb.OnLoad().Wait();
         }
     }
 
