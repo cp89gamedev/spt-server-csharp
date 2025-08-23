@@ -45,11 +45,11 @@ public class MockDatabaseService : DatabaseService, IOnLoad
     {
         _importerUtil = importerUtil;
         _databaseServer = databaseServer;
-        
+
         // Load database immediately in constructor to ensure it's ready
         LoadDatabaseSync();
     }
-    
+
     private void LoadDatabaseSync()
     {
         const string basePath = "Testing/UnitTests/TestAssets/database/";
@@ -57,7 +57,7 @@ public class MockDatabaseService : DatabaseService, IOnLoad
         {
             _tables = _importerUtil.LoadRecursiveAsync<DatabaseTables>(basePath).GetAwaiter().GetResult();
             _isDataValid = true;
-            
+
             // Set the tables in DatabaseServer so other services can access them
             _databaseServer.SetTables(_tables);
             Debug.WriteLine($"[MockDatabaseService] Successfully loaded test database from '{basePath}'");

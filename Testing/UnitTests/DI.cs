@@ -72,10 +72,10 @@ public class DI
                 onLoad.OnLoad().Wait();
             }
         }
-        
+
         // Explicitly ensure MockDatabaseService loads the test database
-        var mockDbService = _serviceProvider.GetService<DatabaseService>();
-        if (mockDbService is MockDatabaseService mockDb)
+        var mockDbImporter = _serviceProvider.GetService<DatabaseImporter>();
+        if (mockDbImporter is MockDatabaseImporter mockDb)
         {
             System.Diagnostics.Debug.WriteLine("[DI] Explicitly calling MockDatabaseService.OnLoad");
             mockDb.OnLoad().Wait();
